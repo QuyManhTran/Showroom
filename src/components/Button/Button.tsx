@@ -2,10 +2,10 @@
 
 import { ButtonInterface } from '../../../types';
 
-function Button({ children, onClick = () => {} }: ButtonInterface) {
+function Button({ children, onClick = () => {}, className }: ButtonInterface) {
   return (
     <button
-      className="flex justify-center items-center mt-10 px-6 py-3 bg-primary-blue rounded-3xl text-white"
+      className={`flex justify-center items-center px-6 py-3 bg-primary-blue rounded-3xl ${className}`}
       onClick={onClick}
     >
       {children}

@@ -12,7 +12,7 @@ export default function Hero() {
         <p className="mt-5 text-2xl font-light">
           Streamline your car rental experience with our effortless booking process.
         </p>
-        <Button>Explore Cars</Button>
+        <Button className={'text-white mt-10'}>Explore Cars</Button>
       </div>
       <div className="w-full flex items-end justify-end xl:flex-[1.5] ">
         <div className="relative xl:w-full w-[90%] xl:h-full h-[590px]">
