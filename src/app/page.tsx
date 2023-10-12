@@ -3,8 +3,10 @@ import Hero from '@/components/Hero';
 import Image from 'next/image';
 import { filters } from '@/asset/Filter';
 import CarItem from '@/components/CarItem';
-import { cars } from '@/asset/cars';
-export default function Home() {
+import { CarData } from '../../types';
+import Form from '@/components/Form';
+export default async function Home() {
+  const cars: CarData[] = await getCars();
   return (
     <main className="overflow-hidden">
       <Hero></Hero>
@@ -16,34 +18,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col justify-between lg:flex-row  lg:items-center gap-4 lg:gap-2">
-            <form className="flex-1 max-w-3xl flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 justify-start">
-              <div className="relative  flex flex-1 bg-[#3b3c9808] rounded-3xl sm:rounded-r-none">
-                <Image
-                  src={'/svg/Volkswagen.svg'}
-                  width={20}
-                  height={20}
-                  className="object-contain ml-3"
-                  alt="cars"
-                ></Image>
-                <input
-                  placeholder="Volkswagen"
-                  className="bg-transparent py-3 px-3 w-full outline-none"
-                ></input>
-              </div>
-              <div className="relative flex-1  flex bg-[#3b3c9808]  rounded-3xl sm:rounded-l-none">
-                <Image
-                  src={'/img/car.png'}
-                  width={20}
-                  height={20}
-                  className="object-contain ml-3"
-                  alt="cars"
-                ></Image>
-                <input
-                  placeholder="Porsche"
-                  className="bg-transparent py-3 px-3 w-full outline-none"
-                ></input>
-              </div>
-            </form>
+            <Form></Form>
             <div className="flex flex-wrap gap-2">
               {filters.map((filter, index) => (
                 <Filter key={index} title={filter.title} items={filter.items}></Filter>
@@ -52,11 +27,26 @@ export default function Home() {
           </div>
           <div className="pt-14 grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
             {cars.map((car, index) => (
-              <CarItem key={index} name={car.name} price={car.price}></CarItem>
+              <CarItem key={index} name={car.make} price={car.highway_mpg} car={car}></CarItem>
             ))}
           </div>
         </div>
       </section>
     </main>
   );
+}
+
+async function getCars() {
+  const url = 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=corolla&limit=12';
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '7aa2d47beemshc281a30f2e13a98p13c9f0jsnd0c3afb01b77',
+      'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com',
+    },
+  };
+
+  const res = await fetch(url, options);
+  const data = await res.json();
+  return data;
 }

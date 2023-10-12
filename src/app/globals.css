@@ -27,3 +27,19 @@ body {
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
+
+.view-car {
+  animation: ViewCar 0.4s ease-in-out forwards;
+}
+
+@keyframes ViewCar {
+  from {
+    transform: scale(0.7);
+    opacity: 0.7;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

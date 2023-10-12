@@ -2,10 +2,10 @@
 import Image from 'next/image';
 import Button from '../Button/Button';
 import React, { useState } from 'react';
-import { CarsInterFace } from '../../../types';
 import { useRouter } from 'next/navigation';
+import { CarData } from '../../../types';
 
-export default function CarItem({ name, price }: CarsInterFace) {
+export default function CarItem({ name, price, car }: { name: string; price: number; car: any }) {
   const router = useRouter();
   const [isView, setIsView] = useState<boolean>(false);
   const onEnter = () => {
@@ -16,8 +16,12 @@ export default function CarItem({ name, price }: CarsInterFace) {
   };
 
   const onView = () => {
-    // alert('hello');
-    router.push('/infor/123', { scroll: false });
+    let searchParams = `${name}?`;
+    for (const key in car) {
+      searchParams = searchParams.concat(`${key}=${car[key]}&&`);
+    }
+    searchParams = searchParams.slice(0, searchParams.length - 2);
+    router.push(`/infor/${searchParams}`, { scroll: false });
   };
   return (
     <div
@@ -36,8 +40,9 @@ export default function CarItem({ name, price }: CarsInterFace) {
           src={'/img/caritem.png'}
           alt="caritem"
           loading="lazy"
+          objectFit="contain"
           fill
-          className="top-0 left-0 right-0 bottom-0 object-contain"
+          className="top-0 left-0 right-0 bottom-0"
         ></Image>
       </div>
       {!isView && (
@@ -60,7 +65,7 @@ export default function CarItem({ name, price }: CarsInterFace) {
               height={20}
               objectFit="contain"
             ></Image>
-            <span className="text-slate-400 leading-[17px]">Automatic</span>
+            <span className="text-slate-400 leading-[17px]">FWD</span>
           </div>
           <div className="flex flex-col gap-2 justify-center items-center">
             <Image
@@ -70,7 +75,7 @@ export default function CarItem({ name, price }: CarsInterFace) {
               height={20}
               objectFit="contain"
             ></Image>
-            <span className="text-slate-400 leading-[17px]">Automatic</span>
+            <span className="text-slate-400 leading-[17px]">{car.city_mpg}</span>
           </div>
         </div>
       )}
